@@ -36,6 +36,7 @@ class App extends React.Component{
       .then(({options, formSchema}) => {
         this.formSchema = jsonToSchema(formSchema);
         this.options = options;
+        this.setState({});
       })
   }
 
