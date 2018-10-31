@@ -29,13 +29,15 @@ class App extends React.Component{
     this.onSubmit = this.onSubmit.bind(this);
     this.options = {};
     this.formSchema = null;
+    this.value = null;
     fetch(window.location.href.replace(".html", ".json"))
       .then((response) => {
         return response.json();
       })
-      .then(({options, formSchema}) => {
+      .then(({options, formSchema, value}) => {
         this.formSchema = jsonToSchema(formSchema);
         this.options = options;
+        this.value = value;
         this.forceUpdate();
       })
   }
@@ -51,7 +53,7 @@ class App extends React.Component{
   render()  {
     return this.formSchema !== null &&
       <form onSubmit={this.onSubmit}>
-        <t.form.Form ref="form" type={this.formSchema} options={this.options} />
+        <t.form.Form ref="form" type={this.formSchema} value={this.value} options={this.options} />
         <div className="form-group">
           <button type="submit" className="btn btn-primary">Save</button>
         </div>
