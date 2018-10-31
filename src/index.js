@@ -27,17 +27,22 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.upload = this.upload.bind(this);
     this.options = {};
     this.formSchema = null;
     this.value = null;
+    this.target = window.location.href;
+    this.method = "POST";
     fetch(window.location.href.replace(".html", ".json"))
       .then((response) => {
         return response.json();
       })
-      .then(({options, formSchema, value}) => {
+      .then(({options, formSchema, value, target, method}) => {
         this.formSchema = jsonToSchema(formSchema);
         this.options = options;
         this.value = value;
+        this.target = target;
+        this.method = method || "POST";
         this.forceUpdate();
       })
   }
@@ -45,9 +50,42 @@ class App extends React.Component{
   onSubmit(evt) {
     evt.preventDefault()
     const value = this.refs.form.getValue()
+    var contentType = "json";
+    if (value) {
+        var fd = new FormData();
+        for(var k in value){
+          var v = value[k];
+          if (v instanceof File) {
+            contentType = "multipart";
+            fd.append(k, v, v.name);
+          } else {
+            fd.append(k, v);
+          }
+        }
+        if(contentType === "json"){
+          this.upload(value, contentType);
+        } else {
+          this.upload(fd, contentType);
+        }
+    }
     if (value) {
       console.log(value)
     }
+  }
+
+  upload(fd, contentType) {
+    fetch(this.target, {
+      body: fd,
+      headers: {
+        "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data"
+      },
+      method: this.method,
+    }).then((resp) => {
+      return resp.json();
+    }).then(({redirect}) => {
+      window.location.href = redirect;
+    })
+
   }
 
   render()  {
