@@ -28,6 +28,9 @@ function jsonToSchema(json, structs){
   if(json === "t.MoviePreview"){
     return t.MoviePreview;
   }
+  if(json === "t.Href"){
+    return t.Href;
+  }
   if(listRegEx.test(json)){
     let [moreCrap, listType] = listRegEx.exec(json);
     return t.list(jsonToSchema(listType));
