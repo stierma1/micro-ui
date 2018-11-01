@@ -59,7 +59,7 @@ class HrefFactory extends t.form.Component{
   }
 
   getTemplate() {
-      return imagePreview;
+      return href;
   }
 }
 
