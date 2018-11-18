@@ -42,17 +42,4 @@ export const RegexedString = (regex, errorMessage) => {
   return regexStr;
 };
 
-export const JsonText = t.subtype(t.Any, (n) => {
-  try{
-    JSON.parse(n);
-    return true;
-  } catch(err){
-    return false;
-  }
-});
-
-JsonText.getValidationErrorMessage = () => {
-  return "Invalid JSON"
-}
-
-export default {...t, Positive, Negative, RegexedString, Range, JsonText, ...types};
+export default {...t, Positive, Negative, RegexedString, Range, ...types};
