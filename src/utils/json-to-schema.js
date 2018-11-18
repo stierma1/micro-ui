@@ -34,6 +34,9 @@ function jsonToSchema(json, structs){
   if(json === "t.Any"){
     return t.Any;
   }
+  if(json === "t.JSONText" || json === "t.JsonText"){
+    return t.JsonText;
+  }
   if(listRegEx.test(json)){
     let [moreCrap, listType] = listRegEx.exec(json);
     return t.list(jsonToSchema(listType, structs));
