@@ -31,9 +31,12 @@ function jsonToSchema(json, structs){
   if(json === "t.Href"){
     return t.Href;
   }
+  if(json === "t.Any"){
+    return t.Any;
+  }
   if(listRegEx.test(json)){
     let [moreCrap, listType] = listRegEx.exec(json);
-    return t.list(jsonToSchema(listType));
+    return t.list(jsonToSchema(listType, structs));
   }
   if(enumRegEx.test(json)){
     let [crap, enums, name] = enumRegEx.exec(json);
@@ -54,7 +57,7 @@ function jsonToSchema(json, structs){
   if(typeof(json) === "object"){
     let object = {};
     for(let key in json){
-      object[key] = jsonToSchema(json[key]);
+      object[key] = jsonToSchema(json[key], structs);
     }
     return t.struct(object);
   }
