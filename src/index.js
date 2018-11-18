@@ -77,7 +77,7 @@ class App extends React.Component{
     fetch(this.target, {
       body: fd,
       headers: {
-        "Content-Type": contentType === "json" ? "application/json" : "multipart/form-data"
+        "Content-Type": contentType === "json" ? "application/json" : undefined
       },
       method: this.method,
     }).then((resp) => {
