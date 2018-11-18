@@ -43,7 +43,12 @@ export const RegexedString = (regex, errorMessage) => {
 };
 
 export const JsonText = t.subtype(t.Any, (n) => {
-  return JSON.parse(n);
+  try{
+    JSON.parse(n);
+    return true;
+  } catch(err){
+    return false;
+  }
 });
 
 JsonText.getValidationErrorMessage = () => {
