@@ -74,13 +74,17 @@ class App extends React.Component{
   }
 
   upload(fd, contentType) {
-    fetch(this.target, {
+    const options = {
       body: fd,
       headers: {
         "Content-Type": contentType === "json" ? "application/json" : undefined
       },
       method: this.method,
-    }).then((resp) => {
+    };
+    if(contentType === "multipart"){
+      delete options.headers["Content-Type"];
+    }
+    fetch(this.target, options).then((resp) => {
       return resp.json();
     }).then(({redirect}) => {
       window.location.href = redirect;
