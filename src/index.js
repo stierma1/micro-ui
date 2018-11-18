@@ -63,7 +63,7 @@ class App extends React.Component{
           }
         }
         if(contentType === "json"){
-          this.upload(value, contentType);
+          this.upload(JSON.stringify(value), contentType);
         } else {
           this.upload(fd, contentType);
         }
